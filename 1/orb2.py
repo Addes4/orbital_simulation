@@ -1,6 +1,3 @@
-# 5
-# del 2
-# Planetbana med symplektisk euler
 
 import math
 import matplotlib.pyplot as plt
