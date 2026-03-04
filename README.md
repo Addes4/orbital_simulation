@@ -1,69 +1,69 @@
 # UPG6 – Newton Revisited: Gravitational Slingshot
 
-## Uppgift
+## Task
 
-Simulera ett planetsystem med solen, Jupiter och jorden, samt ett rymdskepp nära jorden. Skeppets initiala delta-v är så litet att det inte kan lämna solsystemet på egen hand. Målet är att designa en bana nära Jupiter som fungerar som en *gravitational slingshot* – så att skeppet ändå kan lämna solsystemet.
+Simulate a planetary system with the Sun, Jupiter, and Earth, along with a spacecraft near Earth. The spacecraft's initial delta-v is too small to escape the solar system on its own. The goal is to design a trajectory near Jupiter that acts as a *gravitational slingshot*, giving the spacecraft enough energy to escape.
 
-## Fysik
+## Physics
 
-**Ekvationer:** Newtons gravitationslag i kartesiska koordinater. För varje par av kroppar $i$ och $j$:
+**Equations of motion:** Newton's law of gravitation in Cartesian coordinates. For each pair of bodies $i$ and $j$:
 
 $$\ddot{\mathbf{r}}_i = G m_j \frac{\mathbf{r}_j - \mathbf{r}_i}{|\mathbf{r}_j - \mathbf{r}_i|^3}$$
 
-**Enheter:** Astronomiska enheter (AU), år (yr), solmassor ($M_\odot$). Med dessa enheter ges:
+**Units:** Astronomical units (AU), years (yr), solar masses ($M_\odot$). In these units:
 
 $$G = 4\pi^2 \quad [\text{AU}^3 / (\text{yr}^2 \cdot M_\odot)]$$
 
-**Massor:**
-- Solen: $M_\odot = 1.0$
+**Masses:**
+- Sun: $M_\odot = 1.0$
 - Jupiter: $M_J = 9.54 \times 10^{-4} \, M_\odot$
-- Jorden: $M_E = 3.0 \times 10^{-6} \, M_\odot$
-- Rymdskepp: masslöst (påverkas av men påverkar inte andra kroppar)
+- Earth: $M_E = 3.0 \times 10^{-6} \, M_\odot$
+- Spacecraft: massless (feels gravity but exerts none)
 
-**Initialvillkor:** Elliptiska banor med realistiska orbitalelement ($a$, $e$). Solen ges en initial hastighet så att systemets totala rörelsemängd är noll.
+**Initial conditions:** Elliptical orbits with realistic orbital elements ($a$, $e$). The Sun is given an initial velocity so that the total momentum of the system is zero.
 
-**Numerisk metod:** Symplektisk (semi-implicit) Euler för att bevara energin långsiktigt:
+**Numerical method:** Symplectic (semi-implicit) Euler, which conserves energy over long timescales:
 ```
 v_{n+1} = v_n + dt * a(r_n)
 r_{n+1} = r_n + dt * v_{n+1}
 ```
 
-**Flykt från solsystemet:** Skeppet har lämnat solsystemet när dess heliocentriska hastighet överstiger flykthastigheten vid aktuellt avstånd:
+**Escape criterion:** The spacecraft has escaped the solar system when its heliocentric speed exceeds the local escape velocity:
 
 $$v_\text{esc}(r) = \sqrt{\frac{2GM_\odot}{r}}$$
 
-## Filer
+## Files
 
-| Fil | Beskrivning |
-|-----|-------------|
-| `6_NewtonRe.py` | Huvudsimulering: plottar banorna för sol, jord, Jupiter och skepp, samt skeppets hastighet mot flykthastigheten som funktion av avstånd |
-| `6_NewtonRe_komp2.py` | Komplement: beräknar och plottar den mekaniska energin för systemet (initial vs slutlig) – verifierar energibevarande |
-| `6_NewtonRe_komp1.py` | Komplement: plottar total energi nära Jupiter för olika steglängder $h, h/2, h/4, h/8, h/16$ – konvergensanalys |
-| `6_NewtonRe_komp3.py` | Komplement: plottar skeppets position nära Jupiter för olika steglängder – visar hur banan konvergerar |
+| File | Description |
+|------|-------------|
+| `6_NewtonRe.py` | Main simulation: plots the trajectories of the Sun, Earth, Jupiter, and spacecraft, and compares the spacecraft's speed to the escape velocity as a function of distance |
+| `6_NewtonRe_komp2.py` | Supplement: computes and prints the total mechanical energy (initial vs. final) to verify energy conservation |
+| `6_NewtonRe_komp1.py` | Supplement: plots the total energy near Jupiter for step sizes $h, h/2, h/4, h/8, h/16$ — convergence analysis |
+| `6_NewtonRe_komp3.py` | Supplement: plots the spacecraft's position near Jupiter for different step sizes — shows how the trajectory converges |
 
-## Körning
+## Usage
 
 ```bash
-python 6_NewtonRe.py        # Huvudsimulering med slingshot-bana
-python 6_NewtonRe_komp2.py  # Energianalys
-python 6_NewtonRe_komp1.py  # Energi nära Jupiter (konvergens)
-python 6_NewtonRe_komp3.py  # Position nära Jupiter (konvergens)
+python 6_NewtonRe.py        # Main simulation with slingshot trajectory
+python 6_NewtonRe_komp2.py  # Energy analysis
+python 6_NewtonRe_komp1.py  # Energy near Jupiter (convergence)
+python 6_NewtonRe_komp3.py  # Position near Jupiter (convergence)
 ```
 
-Kräver: `matplotlib`
+Requires: `matplotlib`
 
-## Parametrar (huvudsimulering)
+## Parameters (main simulation)
 
-| Parameter | Värde | Förklaring |
-|-----------|-------|------------|
-| `PHASE_J` | 110° | Jupiters startvinkel |
-| `DV_T` | 2.2 AU/yr | Tangentiellt delta-v för skeppet |
-| `DV_R` | −0.55 AU/yr | Radiellt delta-v för skeppet |
-| `DT` | 1/5000 yr | Tidssteg |
-| `TEND` | 12.4 yr | Simuleringstid |
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| `PHASE_J` | 110° | Jupiter's initial orbital angle |
+| `DV_T` | 2.2 AU/yr | Tangential delta-v applied to spacecraft |
+| `DV_R` | −0.55 AU/yr | Radial delta-v applied to spacecraft |
+| `DT` | 1/5000 yr | Time step |
+| `TEND` | 12.4 yr | Simulation duration |
 
-## Resultat
+## Results
 
-- Figur 1 visar banorna i xy-planet. Skeppet startar nära jorden, svänger förbi Jupiter och lämnar solsystemet.
-- Figur 2 bekräftar att skeppet lämnar solsystemet: dess heliocentriska hastighet överstiger flykthastigheten vid stora avstånd.
-- Energianalyserna visar att den symplektiska Euler-metoden bevarar energin väl, och att lösningen konvergerar vid halvering av steglängden.
+- Figure 1 shows the trajectories in the xy-plane. The spacecraft starts near Earth, swings past Jupiter, and exits the solar system.
+- Figure 2 confirms escape: the spacecraft's heliocentric speed exceeds the escape velocity at large distances.
+- The energy analyses show that the symplectic Euler method conserves energy well, and that the trajectory converges as the step size is halved.
