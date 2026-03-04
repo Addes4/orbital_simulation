@@ -1,6 +1,3 @@
-# 5
-# del 1
-# Komplettering med plot för euler fram
 
 import math
 import matplotlib.pyplot as plt
