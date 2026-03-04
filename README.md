@@ -1,8 +1,8 @@
-# UPG5 & UPG6 – Newtonian Gravitation
+# Newtonian Gravitation
 
 ---
 
-## Task 5 – Newtonian Gravitation
+## Task 1 – Newtonian Gravitation
 
 ### Description
 
@@ -78,7 +78,7 @@ Requires: `matplotlib`
 
 ---
 
-## Task 6 – Newton Revisited: Gravitational Slingshot
+## Task 2 – Newton Revisited: Gravitational Slingshot
 
 ### Description
 
