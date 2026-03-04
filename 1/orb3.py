@@ -1,8 +1,3 @@
-# 5
-# del 3
-# Planetbana med symplektisk euler + rörandes sol
-# Komplettering med log-log plot med lutning 2
-
 
 import math
 import matplotlib.pyplot as plt
